@@ -8,5 +8,6 @@ services:
     volumes:
       - "/dev:/dev"
     environment: 
-      - URL=
+      - URL=${DEFGUARD_URL}
+      - WORKER_ID=${WORKER_ID}
 
