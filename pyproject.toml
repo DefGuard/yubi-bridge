@@ -8,7 +8,7 @@ authors = ["fslezak <fslezak@teonite.com>"]
 python = "^3.9"
 grpcio = "^1.47.0"
 pexpect = "^4.8.0"
-protobuf = "3.20.1"
+protobuf = "3.20.2"
 python-gnupg = "^0.4.9"
 yubikey-manager = "^4.0.9"
 
