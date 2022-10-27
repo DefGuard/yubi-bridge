@@ -1,0 +1,24 @@
+[tool.poetry]
+name = "yubi-bridge"
+version = "0.1.0"
+description = ""
+authors = ["fslezak <fslezak@teonite.com>"]
+
+[tool.poetry.dependencies]
+python = "^3.9"
+grpcio = "^1.47.0"
+pexpect = "^4.8.0"
+protobuf = "3.20.1"
+python-gnupg = "^0.4.9"
+yubikey-manager = "^4.0.9"
+
+[tool.poetry.dev-dependencies]
+black = "^22.6.0"
+grpcio-tools = "^1.47.0"
+flake8 = "^4.0.1"
+pre-commit = "^2.15.0"
+pytest = "^7.1.2"
+
+[build-system]
+requires = ["poetry-core>=1.0.8"]
+build-backend = "poetry.core.masonry.api"
