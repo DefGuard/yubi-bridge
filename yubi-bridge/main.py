@@ -16,6 +16,7 @@ from client import WorkerHandler
 
 URL = getenv("URL", "localhost:50055")
 WORKER_ID = getenv("WORKER_ID", "YubiBridge")
+DEFGUARD_TOKEN = getenv("DEFGUARD_TOKEN", "DEFGUARD_TOKEN")
 LOG_LEVEL = getenv("LOG_LEVEL", logging.INFO)
 SMARTCARD_RETRIES = getenv("RETRIES", 1)
 JOB_INTERVAL = getenv("JOB_INTERVAL", 2)
@@ -343,7 +344,7 @@ def main():
     parser.add_argument(
         "-w",
         "--worker-token",
-        default="worker-secret",
+        default=DEFGUARD_TOKEN,
         help="Secret worker token to secure gRPC communication",
     )
     parser.add_argument(
