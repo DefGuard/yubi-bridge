@@ -10,4 +10,5 @@ services:
     environment: 
       - URL=${DEFGUARD_URL}
       - WORKER_ID=${WORKER_ID}
+      - DEFGUARD_TOKEN=${DEFGUARD_TOKEN}
 
