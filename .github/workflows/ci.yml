@@ -26,9 +26,7 @@ jobs:
           submodules: recursive
       - name: Install deps
         run: | 
-          apt-get update && apt-get install -y libssl-dev swig libpcsclite1 libpcsclite-dev 
-          apt-get install -y usbutils libsystemd-dev software-properties-common libffi-dev scdaemon 
-
+          sudo apt-get update && sudo apt-get install -y libssl-dev swig libpcsclite1 libpcsclite-dev usbutils libsystemd-dev software-properties-common libffi-dev scdaemon 
       - name: Install protoc
         uses: actions/setup-python@v2
       - run: pip install --upgrade pip poetry
