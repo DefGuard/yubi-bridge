@@ -27,7 +27,7 @@ jobs:
       - name: Install deps
         run: | 
           apt-get update && apt-get install -y libssl-dev swig libpcsclite1 libpcsclite-dev 
-          usbutils libsystemd-dev software-properties-common libffi-dev scdaemon 
+          apt-get install -y usbutils libsystemd-dev software-properties-common libffi-dev scdaemon 
 
       - name: Install protoc
         uses: actions/setup-python@v2
