@@ -156,7 +156,7 @@ class YubiBridge:
         try:
             for _, info in list_all_devices():
                 LOG.debug("Found device with serial: %s", info.serial)
-            return len(list_all_devices()) == 0
+            return len(list_all_devices()) != 0
         except Exception:
             LOG.error("Device error")
 
@@ -372,7 +372,9 @@ def main():
     if args.grpc is not None:
         LOG.info("Connecting to %s as %s", args.grpc, args.id)
         worker = WorkerHandler(args.id, args.grpc, args.worker_token, args.secure)
+        LOG.info(args.worker_token)
         worker.register()
+        LOG.info("Worker connected")
         while True:
             job = worker.get_job()
             if job:
@@ -383,7 +385,7 @@ def main():
                     job[1],
                     job[2],
                 )
-                for i in range(SMARTCARD_RETRIES + 1):
+                for i in range(int(SMARTCARD_RETRIES) + 1):
                     if yb.check_connection():
                         success, public_key, ssh_key, fingerprint, err = yb.provision(
                             job[0], job[1], job[2]
