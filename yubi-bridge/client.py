@@ -62,9 +62,9 @@ class WorkerHandler:
     def register(self):
         stub = WorkerServiceStub(self.channel)
         request = Worker(id=self.worker_id)
+        logging.debug(request)
         try:
-            response = stub.RegisterWorker(request)
-            logging.debug(response)
+            stub.RegisterWorker(request)
         except grpc.RpcError as err:
             if err.code() != grpc.StatusCode.ALREADY_EXISTS:
                 logging.error("Server error: %s %s", err.code(), err.details())
