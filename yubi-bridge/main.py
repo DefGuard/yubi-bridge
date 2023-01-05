@@ -372,7 +372,6 @@ def main():
     if args.grpc is not None:
         LOG.info("Connecting to %s as %s", args.grpc, args.id)
         worker = WorkerHandler(args.id, args.grpc, args.worker_token, args.secure)
-        LOG.info(args.worker_token)
         worker.register()
         LOG.info("Worker connected")
         while True:
