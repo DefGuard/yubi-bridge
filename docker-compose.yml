@@ -1,6 +1,6 @@
 version: "3.9"
 services:
-  ykdev:
+  yubi-bridge:
     build:
       context: ./
       dockerfile: Dockerfile
@@ -11,4 +11,6 @@ services:
       - URL=${DEFGUARD_URL}
       - WORKER_ID=${WORKER_ID}
       - DEFGUARD_TOKEN=${DEFGUARD_TOKEN}
+    # By default run as Defguard client
+    command: --grpc
 
