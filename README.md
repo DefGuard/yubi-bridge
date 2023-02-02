@@ -1,55 +1,39 @@
 # YubiBridge
 
-[User Documentation](https://defguard.gitbook.io/defguard/enterprise-features/yubikey-provisioning)
+[Docs](https://defguard.gitbook.io/defguard/enterprise-features/yubikey-provisioning)
 
-We created YubiBridge to make creating and provisioning of [GPG](https://gnupg.org/) keys for [YubiKey](https://www.yubico.com/products/) easy.
-YubiBridge allows you to provision your YubiKey with automatically generated GPG keys in a few simple steps.
-It's completely safe, we are not storing private keys, they are completely wiped after provisioning.
-Only public SSH and PGP keys are sent to Defguard - you can download them at any time.
+Yubi-Bridge is a Python module that creates [GPG](https://gnupg.org/) keys for [YubiKey](https://www.yubico.com/products/)
+keys with user data and transfers them automatically to [YubiKey](https://www.yubico.com/products/).
+It can be run as a stand-alone application, or a client that takes jobs from DefGuard Core backend.
+Refer to [documentation](https://defguard.gitbook.io/defguard/enterprise-features/yubikey-provisioning) for more info.
 
-## How to use YubiBridge?
+## How to run?
 
-You can use YubiBridge in two ways:
+### 1. Using poetry:
 
-* [as a Defguard client service](#as-a-defguard-client) - run the service and then provision YubiKey from Defguard web app
-* [as a standalone command-line application](#as-a-cli-app) - insert your YubiKey then run the app providing your name and email as arguments
-
-### As a Defguard client
-
-You can see available provisioners in Defguard web-application under "provisioners" tab.
-
-To start your own provisioner:
-
-1. Clone YubiBridge repository:
+> Make sure you have [Poetry](https://python-poetry.org/) installed.
 
 ```
-git clone --recursive git@github.com:DefGuard/yubi-bridge.git && cd yubi-bridge
+# Clone the repository recursively (with protobuf files)
+git clone --recursive git@github.com:DefGuard/yubi-bridge.git
+cd yubi-bridge
+
+# Install dependencies
+poetry install
+
+# Compile proto files
+poetry run python3 -m grpc_tools.protoc -Iproto --python_out=yubi-bridge --grpc_python_out=yubi-bridge proto/worker/worker.proto
+
+# Run YubiBridge
+poetry run python3 yubi-bridge/main.py [options]
 ```
 
-2. Copy and fill in the .env file:
+### 2. Using docker-compose
 
-```
-cp .env.template .env
-```
+Refer to [documentation](https://defguard.gitbook.io/defguard/enterprise-features/yubikey-provisioning#as-a-defguard-client)
+for a guide on how to setup docker-compose.
 
-Variables to set:
-
-* `DEFGUARD_URL`: Defguard GRPC URL, e.g.: `defguard-grpc.mycompany.com`
-* `WORKER_ID`: Your machine id, this is the name you'll see in Defguard "provisioners" tab, e.g.: `Jane-Laptop`
-* `DEFGUARD_TOKEN`: Token from Defguard app to secure gRPC connection available on provisioners page.
-
-> You can find list of all environment variables and arguments with explanation [here](../in-depth/environmental-variables-configuration.md).
-
-3. Finally, run the service with docker-compose:
-
-```
-docker compose run yubi-bridge --grpc --worker-token <TOKEN>
-```
-
-> You'll find the token on "Provisioners" page of your Defguard instance.
-
-If everything went well, your machine (with worker id you just set) should be visible in Defguard provisioners tab.
-### 3. Environmental variables
+#### 3. Environmental variables
 
 | Environmental variable        | Default             | Description                                                                |
 | ----------------------------- | ------------------- | -------------------------------------------------------------------------- |
