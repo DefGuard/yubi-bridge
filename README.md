@@ -1,62 +1,60 @@
-# Yubi-Bridge
+# YubiBridge
 
-### What is YK-cli?
+[Docs](https://defguard.gitbook.io/defguard/enterprise-features/yubikey-provisioning)
 
-Yubi-Bridge is a Python module which creates GPG keys with user data and transfers them automatically to YubiKey.
+Yubi-Bridge is a Python module that creates [GPG](https://gnupg.org/) keys for
+[YubiKey](https://www.yubico.com/products/) and transfers them automatically to YubiKey.
 It can be run as a stand-alone application, or a client that takes jobs from DefGuard Core backend.
+Refer to [documentation](https://defguard.gitbook.io/defguard/enterprise-features/yubikey-provisioning) for more info.
 
-### Example usage
+## How to run?
 
-To provision YubiKey, run
+You can run this code:
 
-```
-python3 yubi-bridge/main.py -p Luke Skywalker luke@galaxy.far.far.away
-```
+* using poetry - recommended for development
+* using docker-compose - recommended for regular use
 
-To start DefGuard client, run
+### Using poetry:
 
-```
-python3 yubi-bridge/main.py -g defguard-server:50055
-```
-
-### How to run?
-
-##### 1. Using poetry:
-
-Remember you need to have poetry installed on your machine.
+> Make sure you have [Poetry](https://python-poetry.org/) installed.
 
 ```
+# Clone the repository recursively (with protobuf files)
 git clone --recursive git@github.com:DefGuard/yubi-bridge.git
 cd yubi-bridge
+
+# Install dependencies
 poetry install
+
+# Compile proto files
 poetry run python3 -m grpc_tools.protoc -Iproto --python_out=yubi-bridge --grpc_python_out=yubi-bridge proto/worker/worker.proto
+
+# Run YubiBridge
 poetry run python3 yubi-bridge/main.py [options]
 ```
 
-#### 2. Using docker-compose
-
-Sample docker-compose.yml file to run yk-cli script
+Example, running as a Defguard client:
 
 ```
-version: "3.9"
-services:
-  ykdev:
-    build:
-      context: ./
-      dockerfile: Dockerfile
-    privileged: true
-    volumes:
-      - "/dev:/dev"
-
+poetry run python3 yubi-bridge/main.py --grpc defguard-grpc.mycompany.com --worker-token <YOUR_JWT_TOKEN> --id dev_worker
 ```
 
-#### run
+> You'll find the JWT token on "Provisioners" page of your Defguard instance.
+
+Example, running as a stand-alone app:
 
 ```
-docker-compose run yk-cli [options]
+poetry run python3 yubi-bridge/main.py --provision <first_name> <last_name> <email>
 ```
 
-#### 3. Environmental variables
+### Using docker-compose
+
+Refer to [documentation](https://defguard.gitbook.io/defguard/enterprise-features/yubikey-provisioning#as-a-defguard-client)
+for a guide on how to setup docker-compose.
+
+## Environmental variables
+
+You can set these variables to configure how the YubiBridge behaves.
 
 | Environmental variable        | Default             | Description                                                                |
 | ----------------------------- | ------------------- | -------------------------------------------------------------------------- |
