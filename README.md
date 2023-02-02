@@ -9,7 +9,12 @@ Refer to [documentation](https://defguard.gitbook.io/defguard/enterprise-feature
 
 ## How to run?
 
-### 1. Using poetry:
+You can run this code:
+
+* using poetry - recommended for development
+* using docker-compose - recommended for regular use
+
+### Using poetry:
 
 > Make sure you have [Poetry](https://python-poetry.org/) installed.
 
@@ -28,12 +33,28 @@ poetry run python3 -m grpc_tools.protoc -Iproto --python_out=yubi-bridge --grpc_
 poetry run python3 yubi-bridge/main.py [options]
 ```
 
-### 2. Using docker-compose
+Example, running as a Defguard client:
+
+```
+poetry run python3 yubi-bridge/main.py --grpc defguard-grpc.mycompany.com --worker-token <YOUR_JWT_TOKEN> --id dev_worker
+```
+
+> You'll find the JWT token on "Provisioners" page of your Defguard instance.
+
+Example, running as a stand-alone app:
+
+```
+poetry run python3 yubi-bridge/main.py --provision <first_name> <last_name> <email>
+```
+
+### Using docker-compose
 
 Refer to [documentation](https://defguard.gitbook.io/defguard/enterprise-features/yubikey-provisioning#as-a-defguard-client)
 for a guide on how to setup docker-compose.
 
-#### 3. Environmental variables
+## Environmental variables
+
+You can set these variables to configure how the YubiBridge behaves.
 
 | Environmental variable        | Default             | Description                                                                |
 | ----------------------------- | ------------------- | -------------------------------------------------------------------------- |
