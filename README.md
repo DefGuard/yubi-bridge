@@ -2,8 +2,8 @@
 
 [Docs](https://defguard.gitbook.io/defguard/enterprise-features/yubikey-provisioning)
 
-Yubi-Bridge is a Python module that creates [GPG](https://gnupg.org/) keys for [YubiKey](https://www.yubico.com/products/)
-keys with user data and transfers them automatically to [YubiKey](https://www.yubico.com/products/).
+Yubi-Bridge is a Python module that creates [GPG](https://gnupg.org/) keys for
+[YubiKey](https://www.yubico.com/products/) and transfers them automatically to YubiKey.
 It can be run as a stand-alone application, or a client that takes jobs from DefGuard Core backend.
 Refer to [documentation](https://defguard.gitbook.io/defguard/enterprise-features/yubikey-provisioning) for more info.
 
