@@ -16,7 +16,7 @@ jobs:
         with:
           submodules: recursive
       - uses: actions/setup-python@v2
-      - run: pip install --upgrade pip 
+      - run: pip install --upgrade pip
       - run: pip install black
       - run: black --check ./**/*.py
   test:
@@ -27,8 +27,8 @@ jobs:
         with:
           submodules: recursive
       - name: Install deps
-        run: | 
-          sudo apt-get update && sudo apt-get install -y libssl-dev swig libpcsclite1 libpcsclite-dev usbutils libsystemd-dev software-properties-common libffi-dev scdaemon 
+        run: |
+          sudo apt-get update && sudo apt-get install -y libssl-dev swig libpcsclite1 libpcsclite-dev usbutils libsystemd-dev software-properties-common libffi-dev scdaemon
       - name: Install protoc
         uses: actions/setup-python@v2
       - run: pip install --upgrade pip poetry
@@ -37,7 +37,7 @@ jobs:
       - name: Run tests
         run: poetry run pytest
   build:
-    runs-on: self-hosterd
+    runs-on: self-hosted
     needs: [lint, test]
     steps:
       - name: Checkout
@@ -59,6 +59,7 @@ jobs:
       - name: Login to github registry
         uses: docker/login-action@v2
         with:
+          context: .
           registry: ghcr.io
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
