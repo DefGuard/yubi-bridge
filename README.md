@@ -23,6 +23,10 @@ You can run this code:
 git clone --recursive git@github.com:DefGuard/yubi-bridge.git
 cd yubi-bridge
 
+# get protos
+git submodule init
+git submodule update
+
 # Install dependencies
 poetry install
 
