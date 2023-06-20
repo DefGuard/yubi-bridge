@@ -4,7 +4,7 @@ ARG BUILDPLATFORM
 RUN echo " => Running on build platform: $BUILDPLATFORM, building for [ $TARGETPLATFORM ]"
 
 RUN apt-get update && \
-    apt-get -y install --no-install-recommends libpcsclite-dev swig pcscd build-essential && \
+    apt-get -y install --no-install-recommends libpcsclite-dev swig pcscd build-essential gpg gpgconf && \
     rm -rf /var/lib/apt/lists/*
 
 ENV PATH="/venv/bin:$PATH"
