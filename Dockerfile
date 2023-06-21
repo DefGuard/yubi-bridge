@@ -5,6 +5,8 @@ RUN echo " => Running on build platform: $BUILDPLATFORM, building for [ $TARGETP
 
 RUN apt-get update && \
     apt-get -y install --no-install-recommends libpcsclite-dev swig pcscd build-essential gpg gpgconf && \
+    apt-get autoremove -y && \
+    apt-get purge -y --auto-remove && \
     rm -rf /var/lib/apt/lists/*
 
 ENV PATH="/venv/bin:$PATH"
