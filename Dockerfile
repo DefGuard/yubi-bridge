@@ -1,12 +1,18 @@
-FROM python:3.10 as deps
+FROM --platform=$TARGETPLATFORM python:3.11.4-slim AS deps
+ARG TARGETPLATFORM
+ARG BUILDPLATFORM
+RUN echo " => Running on build platform: $BUILDPLATFORM, building for [ $TARGETPLATFORM ]"
 
-RUN apt-get update && apt-get -y install libpcsclite-dev swig
+RUN apt-get update && \
+    apt-get -y install --no-install-recommends libpcsclite-dev swig pcscd build-essential gpg gpgconf && \
+    apt-get autoremove -y && \
+    apt-get purge -y --auto-remove && \
+    rm -rf /var/lib/apt/lists/*
 
 ENV PATH="/venv/bin:$PATH"
 WORKDIR /app
-RUN python -m venv /venv
-RUN pip install poetry
-RUN pip install virtualenv
+RUN python3 -m venv /venv
+RUN pip install poetry virtualenv
 COPY poetry.lock pyproject.toml ./
 RUN poetry config virtualenvs.create false
 RUN poetry install --no-interaction
