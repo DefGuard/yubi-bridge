@@ -6,7 +6,7 @@ description = "YubiKey provisioning tool for DefGuard"
 
 [tool.poetry.dependencies]
 python = "^3.10"
-grpcio = "^1.49.0"
+grpcio = "^1.53.0"
 pexpect = "^4.8.0"
 protobuf = "4.21.9"
 python-gnupg = "^0.5.0"
