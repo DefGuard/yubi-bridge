@@ -11,6 +11,8 @@ pexpect = "^4.8.0"
 protobuf = "4.21.9"
 python-gnupg = "^0.5.0"
 yubikey-manager = "^4.0.9"
+cython = "^3.0.0"
+stdeb = "^0.10.0"
 
 [tool.poetry.dev-dependencies]
 black = "^22.10.0"

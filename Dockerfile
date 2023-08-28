@@ -18,9 +18,13 @@ WORKDIR /app
 COPY --from=deps  /venv /venv
 COPY entrypoint.sh ./entrypoint.sh
 COPY proto ./proto
-COPY yubi-bridge ./yubi-bridge
+COPY yubi_bridge ./yubi_bridge
 RUN python3 -m grpc_tools.protoc -Iproto \
-		--python_out=yubi-bridge --grpc_python_out=yubi-bridge \
+		--python_out=yubi_bridge --grpc_python_out=yubi_bridge \
 		proto/worker/worker.proto
+
+RUN apt-get install pcscd -y 
+RUN sed -i 's/from worker import worker_pb2 as worker_dot_worker__pb2/from . import worker_pb2 as worker_dot_worker__pb2/g' \
+	yubi_bridge/worker/worker_pb2_grpc.py
 
 ENTRYPOINT ["./entrypoint.sh"]

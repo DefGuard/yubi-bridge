@@ -12,7 +12,7 @@ import gnupg
 import pexpect
 from ykman.device import list_all_devices
 
-from client import WorkerHandler
+from .client import WorkerHandler
 
 URL = getenv("URL", "localhost:50055")
 WORKER_ID = getenv("WORKER_ID", "YubiBridge")

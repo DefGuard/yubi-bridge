@@ -1,0 +1,14 @@
+#!/usr/bin/make -f
+export DEB_BUILD_OPTIONS=nocheck
+
+%:
+	dh $@ --with python3 --buildsystem=pybuild
+
+
+override_dh_auto_install:
+	dh_auto_install
+	python3 -m pip install -r debian/requirements.txt
+
+# No need for a custom clean target
+# clean:
+#     dh_clean

@@ -3,8 +3,8 @@ import logging
 
 import grpc
 
-from worker.worker_pb2 import JobStatus, Worker
-from worker.worker_pb2_grpc import WorkerServiceStub
+from .worker.worker_pb2 import JobStatus, Worker
+from .worker.worker_pb2_grpc import WorkerServiceStub
 
 
 class _ClientCallDetails(

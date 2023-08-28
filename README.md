@@ -29,8 +29,10 @@ poetry install
 # Compile proto files
 poetry run python3 -m grpc_tools.protoc -Iproto --python_out=yubi-bridge --grpc_python_out=yubi-bridge proto/worker/worker.proto
 
+## Due to [issue](https://github.com/protocolbuffers/protobuf/issues/1491) with generated proto imports you need to replace import path manually
+
 # Run YubiBridge
-poetry run python3 yubi-bridge/main.py [options]
+poetry run python3 -m yubi-bridge.main.py [options]
 ```
 
 Example, running as a Defguard client:
