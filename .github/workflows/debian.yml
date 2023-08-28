@@ -19,10 +19,12 @@ jobs:
         run: sudo apt-get update && sudo apt-get install -y perl dh-python build-essential debhelper python3-pytest scdaemon yubikey-manager
       - name: Build Debian package
         run: dpkg-buildpackage -us -uc
-      - name: Move package artifacts
-        run: mv ../*.deb deb-packages/
+      - name: Rename artifact
+        run: mv ../yubi-bridge_0.1.0_all.deb ../yubi-bridge.deb
+      - name: Move artifact
+        run: mv ../yubi-bridge.deb ./
       - name: Upload Debian package artifact
         uses: actions/upload-artifact@v2
         with:
-          name: deb-package
-          path: deb-packages/
+          name: yubi-bridge.deb
+          path: yubi-bridge.deb
