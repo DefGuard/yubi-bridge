@@ -1,0 +1,12 @@
+[Unit]
+Description=YubiBridge service
+Documentation=https://defguard.gitbook.io/defguard/
+After=network.target
+
+[Service]
+Type=simple
+ExecStart=yubi-bridge
+Restart=always
+
+[Install]
+WantedBy=multi-user.target

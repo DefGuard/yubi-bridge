@@ -7,7 +7,9 @@ export DEB_BUILD_OPTIONS=nocheck
 
 override_dh_auto_install:
 	dh_auto_install
-	python3 -m pip install -r debian/requirements.txt
+
+override_dh_installinit:
+	dh_systemd_enable  --name=yubi_bridge yubi_bridge.service
 
 # No need for a custom clean target
 # clean:

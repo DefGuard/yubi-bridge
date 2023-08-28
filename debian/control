@@ -2,12 +2,12 @@ Source: yubi-bridge
 Section: utils
 Priority: optional
 Maintainer: Teonite community@defguard.net
-Build-Depends: debhelper (>= 10), python3 (>= 3.8), python3-pytest, scdaemon, yubikey-manager, python3-pip
+Build-Depends: debhelper (>= 10), python3 (>= 3.8), python3-pytest, scdaemon, yubikey-manager, python3-pip, systemd
 Standards-Version: 3.9.8
 Homepage: defguard.net
 
 Package: yubi-bridge
 Architecture: all
-Depends: libpcsclite-dev, swig, scdaemon, libffi-dev, libssl-dev, usbutils, libsystemd-dev, software-properties-common, python3-pip
+Depends: libpcsclite-dev, swig, scdaemon, libffi-dev, libssl-dev, usbutils, libsystemd-dev, software-properties-common, python3-pip, ${python3:Depends}
 Description: Yubi-Bridge is a Python module that creates GPG keys for YubiKey and transfers them automatically to YubiKey. It can be run as a stand-alone application, or a client that takes jobs from DefGuard Core backend.
 Version: 0.1.0
