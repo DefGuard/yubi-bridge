@@ -16,9 +16,9 @@ jobs:
         with:
           python-version: 3.x
       - name: Install build dependencies
-        run: sudo apt-get update && sudo apt-get install -y build-essential debhelper python3-pytest scdaemon yubikey-manager
+        run: sudo apt-get update && sudo apt-get install -y perl build-essential debhelper python3-pytest scdaemon yubikey-manager
       - name: Build Debian package
-        run: dpkg-buildpackage -us -uc -b
+        run: dpkg-buildpackage -us -uc
       - name: Upload Debian package artifact
         uses: actions/upload-artifact@v2
         with:
