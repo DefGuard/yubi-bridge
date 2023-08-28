@@ -17,6 +17,12 @@ jobs:
           python-version: 3.x
       - name: Install build dependencies
         run: sudo apt-get update && sudo apt-get install -y perl dh-python build-essential debhelper python3-pytest scdaemon yubikey-manager
+      - name: Install protoc
+        uses: actions/setup-python@v2
+      - run: pip install --upgrade pip poetry
+      - run: poetry install --no-interaction --no-root
+      - run: poetry run python -m grpc_tools.protoc -Iproto --python_out=yubi_bridge --grpc_python_out=yubi_bridge proto/worker/worker.proto
+      - run: sed -i 's/from worker import worker_pb2 as worker_dot_worker__pb2/from . import worker_pb2 as worker_dot_worker__pb2/g' yubi_bridge/worker/worker_pb2_grpc.py
       - name: Build Debian package
         run: dpkg-buildpackage -us -uc
       - name: Rename artifact

@@ -34,6 +34,7 @@ jobs:
       - run: pip install --upgrade pip poetry
       - run: poetry install --no-interaction --no-root
       - run: poetry run python -m grpc_tools.protoc -Iproto --python_out=yubi_bridge --grpc_python_out=yubi_bridge proto/worker/worker.proto
+      - run: sed -i 's/from worker import worker_pb2 as worker_dot_worker__pb2/from . import worker_pb2 as worker_dot_worker__pb2/g' yubi_bridge/worker/worker_pb2_grpc.py
       - name: Run tests
         run: poetry run pytest
   build:
