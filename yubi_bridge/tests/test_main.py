@@ -2,8 +2,8 @@ from tempfile import TemporaryDirectory
 
 import pytest
 
-from main import YubiBridge
-from tests import fixtures
+from yubi_bridge.main import YubiBridge
+from . import fixtures
 
 
 # Succes write to yubikey

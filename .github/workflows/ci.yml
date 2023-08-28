@@ -33,7 +33,7 @@ jobs:
         uses: actions/setup-python@v2
       - run: pip install --upgrade pip poetry
       - run: poetry install --no-interaction --no-root
-      - run: poetry run python -m grpc_tools.protoc -Iproto --python_out=yubi-bridge --grpc_python_out=yubi-bridge proto/worker/worker.proto
+      - run: poetry run python -m grpc_tools.protoc -Iproto --python_out=yubi_bridge --grpc_python_out=yubi_bridge proto/worker/worker.proto
       - name: Run tests
         run: poetry run pytest
   build:
