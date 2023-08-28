@@ -43,8 +43,40 @@ jobs:
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
 
+  build-deb-package:
+    runs-on: self-hosted
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+        with:
+          submodules: recursive
+      - name: Set up Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: 3.x
+      - name: Install build dependencies
+        run: sudo apt-get update && sudo apt-get install -y perl dh-python pcscd swig libpcsclite1 libpcsclite-dev usbutils  build-essential debhelper python3-pytest scdaemon yubikey-manager
+      - name: Install protoc
+        uses: actions/setup-python@v2
+      - run: pip install --upgrade pip poetry
+      - run: poetry install --no-interaction --no-root
+      - run: poetry run python -m grpc_tools.protoc -Iproto --python_out=yubi_bridge --grpc_python_out=yubi_bridge proto/worker/worker.proto
+      - run: sed -i 's/from worker import worker_pb2 as worker_dot_worker__pb2/from . import worker_pb2 as worker_dot_worker__pb2/g' yubi_bridge/worker/worker_pb2_grpc.py
+      - name: Build Debian package
+        run: dpkg-buildpackage -us -uc
+      - name: Rename artifact
+        run: mv ../yubi-bridge_0.1.0_all.deb ../yubi-bridge-${{ github.ref_name }}.deb
+      - name: Move artifact
+        run: mv ../yubi-bridge-${{ github.ref_name }}.deb ./
+      - name: Upload Debian package artifact
+        uses: actions/upload-artifact@v2
+        with:
+          name: yubi-bridge.deb
+          path: yubi-bridge.deb
+
+
   release:
-    needs: [publish]
+    needs: [publish, build-deb-package]
     runs-on: self-hosted
     steps:
       - name: Checkout
@@ -56,3 +88,14 @@ jobs:
         if: startsWith(github.ref, 'refs/tags/')
         with:
           generate_release_notes: true
+      - name: Download Debian package artifact
+        uses: actions/download-artifact@v2
+        with:
+          name: yubi-bridge.deb
+      - name: Upload Debian package to Release
+        uses: actions/upload-release-asset@v1
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: ./yubi-bridge.deb
+          asset_name: yubi-bridge.deb
+          asset_content_type: application/octet-stream
