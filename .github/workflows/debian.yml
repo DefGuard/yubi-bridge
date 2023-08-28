@@ -16,7 +16,7 @@ jobs:
         with:
           python-version: 3.x
       - name: Install build dependencies
-        run: sudo apt-get update && sudo apt-get install -y perl dh-python build-essential debhelper python3-pytest scdaemon yubikey-manager
+        run: sudo apt-get update && sudo apt-get install -y perl dh-python pcscd swig libpcsclite1 libpcsclite-dev usbutils  build-essential debhelper python3-pytest scdaemon yubikey-manager
       - name: Install protoc
         uses: actions/setup-python@v2
       - run: pip install --upgrade pip poetry
