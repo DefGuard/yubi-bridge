@@ -15,7 +15,7 @@ jobs:
         with:
           python-version: 3.x
       - name: Install build dependencies
-        run: sudo apt-get update && sudo apt-get install -y python3
+        run: sudo apt-get update && sudo apt-get install -y perl dh-python pcscd swig libpcsclite1 libpcsclite-dev usbutils  build-essential debhelper python3-pytest scdaemon yubikey-manager
       - name: Install protoc
         uses: actions/setup-python@v2
       - run: pip install --upgrade pip poetry
@@ -24,8 +24,6 @@ jobs:
       - run: sed -i 's/from worker import worker_pb2 as worker_dot_worker__pb2/from . import worker_pb2 as worker_dot_worker__pb2/g' yubi_bridge/worker/worker_pb2_grpc.py
       - name: Setup rpm package
         run: poetry run python3 setup.py bdist_rpm 
-      - name: Build rpm pacakge 
-        run: rpmbuild -ba ./build/bdist.linux-x86_64/rpm/SPECS/yubi-bridge.spec
       - name: Move artifact
         run: mv ../yubi-bridge-${{ github.ref_name }}.rpm ./
       - name: Upload Debian package artifact
