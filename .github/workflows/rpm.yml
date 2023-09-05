@@ -25,7 +25,9 @@ jobs:
       - name: Setup rpm package
         run: poetry run python3 setup.py bdist_rpm 
       - name: Move artifact
-        run: mv ../yubi-bridge-${{ github.ref_name }}.rpm ./
+        run: mv dist/yubi-bridge-0.1.0-1.src.rpm ./
+      - name: Rename artifact
+        run: mv yubi-bridge-0.1.0-1.src.rpm  yubi-brdige-${{ github.ref_name }}.rpm
       - name: Upload Debian package artifact
         uses: actions/upload-artifact@v2
         with:
