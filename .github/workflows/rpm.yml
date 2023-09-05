@@ -1,11 +1,10 @@
-name: Build Debian Package
-
+name: RPM package
 on:
   pull_request:
 
 jobs:
-  build-deb-package:
-    runs-on: ubuntu-latest
+  build-rpm-package:
+    runs-on: self-hosted
     steps:
       - name: Checkout
         uses: actions/checkout@v2
@@ -16,21 +15,22 @@ jobs:
         with:
           python-version: 3.x
       - name: Install build dependencies
-        run: sudo apt-get update && sudo apt-get install -y perl dh-python pcscd swig libpcsclite1 libpcsclite-dev usbutils  build-essential debhelper python3-pytest scdaemon yubikey-manager
+        run: sudo apt-get update && sudo apt-get install -y python3
       - name: Install protoc
         uses: actions/setup-python@v2
       - run: pip install --upgrade pip poetry
       - run: poetry install --no-interaction --no-root
       - run: poetry run python -m grpc_tools.protoc -Iproto --python_out=yubi_bridge --grpc_python_out=yubi_bridge proto/worker/worker.proto
       - run: sed -i 's/from worker import worker_pb2 as worker_dot_worker__pb2/from . import worker_pb2 as worker_dot_worker__pb2/g' yubi_bridge/worker/worker_pb2_grpc.py
-      - name: Build Debian package
-        run: dpkg-buildpackage -us -uc
-      - name: Rename artifact
-        run: mv ../yubi-bridge_0.1.0_all.deb ../yubi-bridge.deb
+      - name: Setup rpm package
+        run: poetry run python3 setup.py bdist_rpm 
+      - name: Build rpm pacakge 
+        run: rpmbuild -ba ./build/bdist.linux-x86_64/rpm/SPECS/yubi-bridge.spec
       - name: Move artifact
-        run: mv ../yubi-bridge.deb ./
+        run: mv ../yubi-bridge-${{ github.ref_name }}.rpm ./
       - name: Upload Debian package artifact
         uses: actions/upload-artifact@v2
         with:
-          name: yubi-bridge.deb
-          path: yubi-bridge.deb
+          name: yubi-bridge-${{ github.ref_name}}.rpm
+          path: yubi-bridge-${{ github.ref_name}}.rpm
+
